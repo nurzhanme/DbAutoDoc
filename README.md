@@ -1,6 +1,6 @@
 # DbAutoDoc - Database Documentation Automation
 
-![Build Status](https://github.com/nurzhanme/SharpmaidGithubActionSample/workflows/GenDoc/badge.svg)
+![Build Status](https://github.com/nurzhanme/DbAutoDoc/workflows/GenDoc/badge.svg)
 
 **DbAutoDoc** is a sample repository that demonstrates an effective approach to automating the generation of comprehensive HTML documentation for your database schema using the official Docker Image of [SchemeSpy](https://github.com/schemaspy/schemaspy).
 The resulting documentation is seamlessly uploaded to GitHub Pages for easy accessibility.
