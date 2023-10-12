@@ -1,0 +1,10 @@
+wishlist
+reviews
+product_categories
+order_items
+payment_methods
+addresses
+orders
+categories
+products
+users

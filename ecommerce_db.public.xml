@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><database name="ecommerce_db" schema="public" type="PostgreSQL - 15.4">
+   <sequences>
+      <sequence increment="1" name="addresses_address_id_seq" startValue="1"/>
+      <sequence increment="1" name="categories_category_id_seq" startValue="1"/>
+      <sequence increment="1" name="order_items_order_item_id_seq" startValue="1"/>
+      <sequence increment="1" name="orders_order_id_seq" startValue="1"/>
+      <sequence increment="1" name="payment_methods_payment_method_id_seq" startValue="1"/>
+      <sequence increment="1" name="products_product_id_seq" startValue="1"/>
+      <sequence increment="1" name="reviews_review_id_seq" startValue="1"/>
+      <sequence increment="1" name="users_user_id_seq" startValue="1"/>
+      <sequence increment="1" name="wishlist_wishlist_id_seq" startValue="1"/>
+   </sequences>
+   <tables>
+      <table name="addresses" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('addresses_address_id_seq'::regclass)" digits="0" id="0" name="address_id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="user_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="user_id" foreignKey="addresses_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="street_address" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="city" nullable="true" remarks="" size="50" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="state" nullable="true" remarks="" size="50" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="5" name="zip_code" nullable="true" remarks="" size="10" type="varchar" typeCode="12"/>
+         <primaryKey column="address_id" sequenceNumberInPK="1"/>
+         <index name="addresses_pkey" unique="true">
+            <column ascending="true" name="address_id"/>
+         </index>
+      </table>
+      <table name="categories" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('categories_category_id_seq'::regclass)" digits="0" id="0" name="category_id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="category_id" foreignKey="product_categories_category_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="product_categories"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="50" type="varchar" typeCode="12"/>
+         <primaryKey column="category_id" sequenceNumberInPK="1"/>
+         <index name="categories_pkey" unique="true">
+            <column ascending="true" name="category_id"/>
+         </index>
+      </table>
+      <table name="order_items" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('order_items_order_item_id_seq'::regclass)" digits="0" id="0" name="order_item_id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="order_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="order_id" foreignKey="order_items_order_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="orders"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="product_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="product_id" foreignKey="order_items_product_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="products"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="quantity" nullable="true" remarks="" size="10" type="int4" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="2" id="4" name="item_price" nullable="true" remarks="" size="10" type="numeric" typeCode="2"/>
+         <primaryKey column="order_item_id" sequenceNumberInPK="1"/>
+         <index name="order_items_pkey" unique="true">
+            <column ascending="true" name="order_item_id"/>
+         </index>
+      </table>
+      <table name="orders" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('orders_order_id_seq'::regclass)" digits="0" id="0" name="order_id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="order_id" foreignKey="order_items_order_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="order_items"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="user_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="user_id" foreignKey="orders_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="2" name="order_date" nullable="true" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="status" nullable="true" remarks="" size="20" type="varchar" typeCode="12"/>
+         <primaryKey column="order_id" sequenceNumberInPK="1"/>
+         <index name="orders_pkey" unique="true">
+            <column ascending="true" name="order_id"/>
+         </index>
+      </table>
+      <table name="payment_methods" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('payment_methods_payment_method_id_seq'::regclass)" digits="0" id="0" name="payment_method_id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="user_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="user_id" foreignKey="payment_methods_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="type" nullable="true" remarks="" size="20" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="account_number" nullable="true" remarks="" size="20" type="varchar" typeCode="12"/>
+         <primaryKey column="payment_method_id" sequenceNumberInPK="1"/>
+         <index name="payment_methods_pkey" unique="true">
+            <column ascending="true" name="payment_method_id"/>
+         </index>
+      </table>
+      <table name="product_categories" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="false" defaultValue="null" digits="0" id="0" name="product_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="product_id" foreignKey="product_categories_product_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="products"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="category_id" nullable="false" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="category_id" foreignKey="product_categories_category_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="categories"/>
+         </column>
+         <primaryKey column="product_id" sequenceNumberInPK="1"/>
+         <primaryKey column="category_id" sequenceNumberInPK="2"/>
+         <index name="product_categories_pkey" unique="true">
+            <column ascending="true" name="product_id"/>
+            <column ascending="true" name="category_id"/>
+         </index>
+      </table>
+      <table name="products" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('products_product_id_seq'::regclass)" digits="0" id="0" name="product_id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="product_id" foreignKey="order_items_product_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="order_items"/>
+            <child column="product_id" foreignKey="product_categories_product_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="product_categories"/>
+            <child column="product_id" foreignKey="reviews_product_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="reviews"/>
+            <child column="product_id" foreignKey="wishlist_product_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="wishlist"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="name" nullable="false" remarks="" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="description" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="2" id="3" name="price" nullable="false" remarks="" size="10" type="numeric" typeCode="2"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="stock_quantity" nullable="false" remarks="" size="10" type="int4" typeCode="4"/>
+         <primaryKey column="product_id" sequenceNumberInPK="1"/>
+         <index name="products_pkey" unique="true">
+            <column ascending="true" name="product_id"/>
+         </index>
+      </table>
+      <table name="reviews" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('reviews_review_id_seq'::regclass)" digits="0" id="0" name="review_id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="product_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="product_id" foreignKey="reviews_product_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="products"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="user_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="user_id" foreignKey="reviews_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="rating" nullable="true" remarks="" size="5" type="int2" typeCode="5"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="4" name="comment" nullable="true" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="6" id="5" name="review_date" nullable="true" remarks="" size="29" type="timestamp" typeCode="93"/>
+         <primaryKey column="review_id" sequenceNumberInPK="1"/>
+         <index name="reviews_pkey" unique="true">
+            <column ascending="true" name="review_id"/>
+         </index>
+      </table>
+      <table name="users" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('users_user_id_seq'::regclass)" digits="0" id="0" name="user_id" nullable="false" remarks="" size="10" type="serial" typeCode="4">
+            <child column="user_id" foreignKey="addresses_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="addresses"/>
+            <child column="user_id" foreignKey="orders_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="orders"/>
+            <child column="user_id" foreignKey="payment_methods_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="payment_methods"/>
+            <child column="user_id" foreignKey="reviews_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="reviews"/>
+            <child column="user_id" foreignKey="wishlist_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="wishlist"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="username" nullable="false" remarks="" size="50" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="email" nullable="false" remarks="" size="100" type="varchar" typeCode="12"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="3" name="password_hash" nullable="false" remarks="" size="2147483647" type="text" typeCode="12"/>
+         <primaryKey column="user_id" sequenceNumberInPK="1"/>
+         <index name="users_pkey" unique="true">
+            <column ascending="true" name="user_id"/>
+         </index>
+      </table>
+      <table name="wishlist" remarks="" schema="public" type="TABLE">
+         <column autoUpdated="true" defaultValue="nextval('wishlist_wishlist_id_seq'::regclass)" digits="0" id="0" name="wishlist_id" nullable="false" remarks="" size="10" type="serial" typeCode="4"/>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="1" name="user_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="user_id" foreignKey="wishlist_user_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="users"/>
+         </column>
+         <column autoUpdated="false" defaultValue="null" digits="0" id="2" name="product_id" nullable="true" remarks="" size="10" type="int4" typeCode="4">
+            <parent column="product_id" foreignKey="wishlist_product_id_fkey" implied="false" onDeleteCascade="false" schema="public" table="products"/>
+         </column>
+         <primaryKey column="wishlist_id" sequenceNumberInPK="1"/>
+         <index name="wishlist_pkey" unique="true">
+            <column ascending="true" name="wishlist_id"/>
+         </index>
+      </table>
+   </tables>
+</database>
