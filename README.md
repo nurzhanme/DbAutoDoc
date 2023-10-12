@@ -4,7 +4,7 @@
 
 **DbAutoDoc** is a sample repository that demonstrates an effective approach to automating the generation of comprehensive HTML documentation for your database schema using the official Docker Image of [SchemeSpy](https://github.com/schemaspy/schemaspy).
 
-The resulting documentation is seamlessly uploaded to GitHub Pages for easy accessibility.
+The [resulting documentation](https://nurzhanme.github.io/DbAutoDoc/) is seamlessly uploaded to GitHub Pages for easy accessibility.
 
 ## Sample setup
 
