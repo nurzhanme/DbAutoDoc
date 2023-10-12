@@ -1,4 +1,4 @@
-name: Generate SchemaSpy Documentation
+name: GenDoc
 
 on:
   push:
