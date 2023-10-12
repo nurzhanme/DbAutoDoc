@@ -1,0 +1,37 @@
+name: Generate SchemaSpy Documentation
+
+on:
+  push:
+    branches:
+      - master  # Change to the default branch of your repository
+
+permissions:
+  contents: write
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Set permissions for output directory
+        run: |
+          chmod -R 777 $GITHUB_WORKSPACE
+
+      - name: Generate SchemaSpy Documentation
+        run: |
+          docker pull schemaspy/schemaspy
+          docker run --rm -v $GITHUB_WORKSPACE:/output schemaspy/schemaspy \
+            -t pgsql \
+            -host ${{ secrets.DB_HOST }} \
+            -db ${{ secrets.DB_NAME }} \
+            -u ${{ secrets.DB_USER }} \
+            -p ${{ secrets.DB_PASSWORD }}
+            
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
